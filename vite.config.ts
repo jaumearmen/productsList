@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => ({
     // This allows the dev server to accept connections from any host,
     // useful for development across networks or in containers.
     host: true,
+    port: parseInt(process.env.PORT || "5173"),
   },
   resolve: {
     alias: {
