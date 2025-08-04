@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => ({
     // useful for development across networks or in containers.
     host: true,
     port: parseInt(process.env.VITE_APP_PORT || "5173"),
+    allowedHosts: [".dev.timbal.ai"],
   },
   resolve: {
     alias: {
