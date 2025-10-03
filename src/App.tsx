@@ -1,7 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Leads from './pages/Leads'
-import LeadDetail from './pages/LeadDetail'
-import { useTitle } from './hooks/use-title'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useTitle } from '@/hooks/use-title'
+import { ThemeProvider } from 'next-themes'
+import { Toaster } from "@/components/ui/sonner"
+import { AuthGuard } from '@/auth/utils/AuthGuard'
+import { SessionProvider } from '@/auth/context/SessionContext'
+import { enableAuth } from '@/utils/miscelanea'
+
+import Home from '@/pages/Home'
+import NotFound from '@/pages/NotFound'
+import AuthRoutes from '@/auth/AuthRoutes'
 
 function App() {
   const appTitle = import.meta.env.VITE_APP_TITLE;
@@ -9,17 +16,21 @@ function App() {
     useTitle(appTitle);
   }
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-4 py-8">
+    <ThemeProvider defaultTheme="dark" storageKey="timbal-theme" attribute="class">
+      <SessionProvider>
+        <Toaster position="top-right" duration={3000} />
+        <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Leads />} />
-            <Route path="/leads" element={<Leads />} />
-            <Route path="/leads/:id" element={<LeadDetail />} />
+            <Route index element={<AuthGuard requireAuth> <Home /> </AuthGuard>} />
+            <Route path="*" element={<NotFound />} />
+            {/* AUTH routes are only shown if authentication is enabled */}
+            <Route path="/auth/*" element={<AuthGuard>
+              {enableAuth ? <AuthRoutes /> : <Navigate to="/" />}
+            </AuthGuard>} />
           </Routes>
-        </main>
-      </div>
-    </BrowserRouter>
+        </BrowserRouter>
+      </SessionProvider>
+    </ThemeProvider>
   )
 }
 

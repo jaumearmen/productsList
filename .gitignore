@@ -26,3 +26,4 @@ dist-ssr
 *.sh
 *.swp
 CLAUDE.md
+bun.lock
