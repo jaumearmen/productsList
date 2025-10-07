@@ -7,6 +7,8 @@ import { SessionProvider } from '@/auth/context/SessionContext'
 import { enableAuth } from '@/utils/miscelanea'
 
 import Home from '@/pages/Home'
+import ProductsPage from '@/pages/ProductsPage'
+import ProductDetail from '@/pages/ProductDetail'
 import NotFound from '@/pages/NotFound'
 import AuthRoutes from '@/auth/AuthRoutes'
 
@@ -22,6 +24,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<AuthGuard requireAuth> <Home /> </AuthGuard>} />
+            <Route path="/products" element={<AuthGuard requireAuth> <ProductsPage /> </AuthGuard>} />
+            <Route path="products/:id" element={<AuthGuard requireAuth> <ProductDetail /> </AuthGuard>} />
             <Route path="*" element={<NotFound />} />
             {/* AUTH routes are only shown if authentication is enabled */}
             <Route path="/auth/*" element={<AuthGuard>
