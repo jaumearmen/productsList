@@ -15,7 +15,6 @@ export function useFetch<T>(url: string, dependencies: any[] = []): FetchState<T
             setState(prev => ({ ...prev, loading: true, error: null }));
 
             try {
-                // Check if the URL is non-empty before fetching
                 if (!url) {
                     setState(prev => ({ ...prev, loading: false }));
                     return;
@@ -32,7 +31,6 @@ export function useFetch<T>(url: string, dependencies: any[] = []): FetchState<T
                 }
             } catch (err) {
                 if (isMounted) {
-                    // Use 'instanceof Error' for better TypeScript/runtime safety
                     const error = (err instanceof Error) ? err : new Error('An unknown error occurred during fetch.');
                     setState({ data: null, loading: false, error });
                 }
@@ -41,7 +39,6 @@ export function useFetch<T>(url: string, dependencies: any[] = []): FetchState<T
 
         fetchData();
 
-        // Cleanup function to prevent state update on unmounted component
         return () => {
             isMounted = false;
         };

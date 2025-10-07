@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { useFetch } from '@/hooks/useFetch';
 import { Product } from '@/types/product';
 
-// shadcn/ui imports
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,13 +17,11 @@ const ProductDetail: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     
-    // Fetch product details
     const { data: product, loading, error } = useFetch<Product>(
         id ? `${API_BASE_URL}/${id}` : '',
         [id]
     );
 
-    // --- State/Loading/Error Handling ---
     if (loading) {
         return (
             <div className="p-8 max-w-4xl mx-auto space-y-4">
@@ -56,7 +53,6 @@ const ProductDetail: React.FC = () => {
         );
     }
 
-    // --- Render Component ---
     return (
         <div className="p-6 md:p-12 min-h-screen bg-background">
             <div className="max-w-6xl mx-auto">
@@ -73,18 +69,15 @@ const ProductDetail: React.FC = () => {
                     </CardHeader>
 
                     <CardContent className="grid lg:grid-cols-3 gap-8">
-                        {/* Image Gallery */}
                         <div className="lg:col-span-1">
                             <img 
                                 src={product.thumbnail} 
                                 alt={product.title} 
                                 className="w-full h-auto object-cover rounded-lg shadow-md transition-transform duration-300 hover:scale-[1.02]"
                                 onError={(e) => {
-                                    // Fallback to a placeholder image
                                     e.currentTarget.src = 'https://placehold.co/600x400/1e293b/e2e8f0?text=Image+Missing'; 
                                 }}
                             />
-                            {/* Simple image list (optional) */}
                             <div className="flex space-x-2 mt-4 overflow-x-auto p-1">
                                 {product.images.slice(0, 4).map((img, index) => (
                                     <img 
@@ -97,14 +90,12 @@ const ProductDetail: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Details and Price */}
                         <div className="lg:col-span-2 space-y-6">
                             <p className="text-lg text-muted-foreground leading-relaxed border-b pb-4">
                                 {product.description}
                             </p>
 
                             <div className="grid grid-cols-2 gap-4 border-b pb-4">
-                                {/* Price */}
                                 <div className="flex items-center space-x-2">
                                     <DollarSign className="h-5 w-5 text-green-500" />
                                     <div>
@@ -113,7 +104,6 @@ const ProductDetail: React.FC = () => {
                                     </div>
                                 </div>
                                 
-                                {/* Discount */}
                                 {product.discountPercentage > 0 && (
                                     <div className="flex items-center space-x-2">
                                         <Tag className="h-5 w-5 text-orange-500" />
